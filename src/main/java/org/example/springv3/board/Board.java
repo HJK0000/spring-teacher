@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.springv3.reply.Reply;
 import org.example.springv3.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @NoArgsConstructor // 빈 생성자 (하이버네이트가 om 할때 필요)
 @Setter
@@ -25,6 +27,9 @@ public class Board {
     private String content;
     @CreationTimestamp
     private Timestamp createdAt;
+
+    @OneToMany(mappedBy = "board")
+    private List<Reply> replies;
 
     // fk
     @ManyToOne(fetch = FetchType.LAZY)
