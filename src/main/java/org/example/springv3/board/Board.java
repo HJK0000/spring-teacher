@@ -1,5 +1,6 @@
 package org.example.springv3.board;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Board {
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @JsonIgnoreProperties({"board"})
     @OneToMany(mappedBy = "board")
     private List<Reply> replies;
 

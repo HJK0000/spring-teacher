@@ -1,5 +1,6 @@
 package org.example.springv3.reply;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +26,14 @@ public class Reply {
 
     private String comment; // 댓글 내용
 
-    @ManyToOne(fetch = FetchType.LAZY) // 이걸 안적으면 하이버네이트가 오브젝트로 인식. 이걸 적어줘야 아 fk구나 하고 이해한다.
-    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
+
+    @JsonIgnoreProperties({"password"})
+    @ManyToOne(fetch = FetchType.LAZY) // 이걸 안적으면 하이버네이트가 오브젝트로 인식. 이걸 적어줘야 아 fk구나 하고 이해한다.
+    private User user;
+
 
     @CreationTimestamp // em.persist 할때만 발동. 네이티브 쿼리 쓰면 발동안한다. 네이티브 쿼리쓰면 now()라고 내가 넣어줘야한다.
     private Timestamp createdAt;
