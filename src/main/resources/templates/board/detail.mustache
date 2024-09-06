@@ -43,15 +43,13 @@
         <div class="list-group">
             {{#model.replies}}
             <!-- 댓글아이템 -->
-            <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div id="reply-{{id}}" class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex">
                     <div class="px-1 me-1 bg-primary text-white rounded">{{username}}</div>
                     <div>{{comment}}</div>
                 </div>
                 {{#isOwner}}
-                <form action="#" method="post">
-                    <button class="btn">🗑</button>
-                </form>
+                    <button onclick="deleteReply('{{id}}')" type="button" class="btn">🗑</button>
                 {{/isOwner}}
             </div>
             {{/model.replies}}
@@ -60,5 +58,22 @@
     </div>
 
 </div>
+
+<script>
+    async function deleteReply(id){
+        let response = await fetch(`/api/reply/${id}`, {
+            method: "delete"
+        });
+        console.log(response);
+        let responseBody = await response.json(); // 파싱
+        console.log(responseBody);
+        // 통신이 끝나고 파싱이 끝나면 실행됨
+        if(response.ok){ // 이렇게 할 수도 있고, response.ok로 조건을 줄 수도 있다. 이게 다 간단&간편
+            $(`#reply-${id}`).remove();
+        }else{
+            alert(responseBody.msg);
+        }
+    }
+</script>
 
 {{>layout/footer}}
