@@ -28,10 +28,11 @@
     <div class="card mt-3">
         <!-- 댓글등록 -->
         <div class="card-body">
-            <form action="/reply/save" method="post">
-                <textarea class="form-control" rows="2" name="comment"></textarea>
+            <form>
+                <input type="hidden" value="{{model.id}}" id="boardId">
+                <textarea class="form-control" rows="2" id="comment"></textarea>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
+                    <button type="button" class="btn btn-outline-primary mt-1">댓글등록</button>
                 </div>
             </form>
         </div>
@@ -60,16 +61,20 @@
 </div>
 
 <script>
+
     async function deleteReply(id){
+        // 1. header + body
         let response = await fetch(`/api/reply/${id}`, {
             method: "delete"
         });
         console.log(response);
+        // 2. body (parsing)
         let responseBody = await response.json(); // 파싱
         console.log(responseBody);
         // 통신이 끝나고 파싱이 끝나면 실행됨
         if(response.ok){ // 이렇게 할 수도 있고, response.ok로 조건을 줄 수도 있다. 이게 다 간단&간편
             $(`#reply-${id}`).remove();
+            //location.reload(); // f5. 이거쓰면 안돼. AJAX 쓰는 이유가 없어짐.
         }else{
             alert(responseBody.msg);
         }

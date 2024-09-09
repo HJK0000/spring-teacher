@@ -2,6 +2,7 @@ package org.example.springv3.reply;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +27,6 @@ public class Reply {
 
     private String comment; // 댓글 내용
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
@@ -37,4 +37,13 @@ public class Reply {
 
     @CreationTimestamp // em.persist 할때만 발동. 네이티브 쿼리 쓰면 발동안한다. 네이티브 쿼리쓰면 now()라고 내가 넣어줘야한다.
     private Timestamp createdAt;
+
+    @Builder
+    public Reply(Integer id, String comment, Board board, User user, Timestamp createdAt) {
+        this.id = id;
+        this.comment = comment;
+        this.board = board;
+        this.user = user;
+        this.createdAt = createdAt;
+    }
 }
