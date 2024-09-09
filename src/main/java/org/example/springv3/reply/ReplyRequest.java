@@ -15,8 +15,8 @@ public class ReplyRequest {
         public Reply toEntity(User sessionUser, Board board) {
             return Reply.builder()
                     .comment(comment)
-                    .user(null)
-                    .board(null)
+                    .user(sessionUser)
+                    .board(board)
                     .build();
         }
 

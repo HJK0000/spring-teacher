@@ -29,6 +29,12 @@ public class BoardController {
     private final HttpSession session;
     private final BoardService boardService;
 
+    @GetMapping("/test/reply")
+    public void front(HttpServletRequest request){
+        System.out.println("Request URI: " + request.getRequestURI());
+    }
+
+
     @GetMapping("/test/v1")
     public @ResponseBody Resp testV1(){
         User u = new User();
