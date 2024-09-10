@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import java.util.List;
 import java.util.Optional;
 
 //JPArEPOSITORY를 상속한 모든 애들은 @DataJPAtest 라고 붙이면 메모리에 다 뜬다.
@@ -16,6 +17,21 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepository;
+
+
+    @Test
+public void mFindAll_test(){
+        //given
+        String title = "1";
+
+        //when
+        List<Board> boardList = boardRepository.mFindAll(title);
+
+        //eye
+        System.out.println(boardList.size());
+        System.out.println(boardList.get(0).getTitle());
+    }
+
 
     @Test
     public void mFindByIdWithReply_test(){
