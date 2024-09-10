@@ -22,7 +22,7 @@ public class BoardRepositoryTest {
     @Test
 public void mFindAll_test(){
         //given
-        String title = "1";
+        String title = "제";
 
         //when
         List<Board> boardList = boardRepository.mFindAll(title);
@@ -30,6 +30,10 @@ public void mFindAll_test(){
         //eye
         System.out.println(boardList.size());
         System.out.println(boardList.get(0).getTitle());
+        System.out.println(boardList.get(1).getTitle());
+        System.out.println(boardList.get(2).getTitle());
+        System.out.println(boardList.get(3).getTitle());
+        System.out.println(boardList.get(4).getTitle());
     }
 
 
