@@ -35,14 +35,22 @@
     }
 
 
-    // 2. 통신
+    // 2. 통신 + CSR
     async function getBoardList(title) {
         let response = await fetch(`/board?title=${title}`);
         let responseBody = await response.json();
 
         if (response.ok) {
+            $("#board-box").empty(); // remove는 dom제거, empty는 안에 있는 내용물 제거
             let boardList = responseBody.body; // 이걸 어디뿌려? models 안에!
+
+            for(board of boardList){
+                let dom = boardItem(board);
+                $("#board-box").append(dom);
+            }
         } else {
+            // 오류나면 통신해서 가져온 메시지 뿌려주기
+            alert(responseBody.msg);
 
         }
 
@@ -53,6 +61,7 @@
         // 1. 값 가져오기
         let title = e.target.value;
         // 2. fetch 요청 ( fetch 요청은 따로 함수빼서 만들기. 여기다 다 적으면 복잡하다. )
+        getBoardList(title);
     })
 
 
