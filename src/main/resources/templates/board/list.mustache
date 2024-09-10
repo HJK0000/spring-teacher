@@ -3,23 +3,60 @@
 <div class="container p-5">
 
     <div class="d-flex justify-content-end mb-2">
-        <form action="/" method="get" class="d-flex col-md-3">
-            <input class="form-control me-2" type="text" placeholder="Search" name="title">
-            <button class="btn btn-primary">Search</button>
+        <form>
+            <input class="form-control me-2" type="text" placeholder="Search" id="title">
         </form>
     </div>
+    <div id="board-box">
+        {{#models}}
 
-    {{#models}}
-
-        <div class="card mb-3">
-            <div class="card-body">
-                <h4 class="card-title mb-3">{{title}}</h4>
-                <a href="/board/{{id}}" class="btn btn-primary">상세보기</a>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">{{title}}</h4>
+                    <a href="/board/{{id}}" class="btn btn-primary">상세보기</a>
+                </div>
             </div>
-        </div>
 
-    {{/models}}
-
+        {{/models}}
+    </div>
 </div>
+
+<script>
+
+    // 1. 디자인에 데이터 렌더링
+
+    function boardItem(board) {
+        return `<div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">${board.title}</h4>
+                    <a href="/board/${board.id}" class="btn btn-primary">상세보기</a>
+                </div>
+            </div>`;
+    }
+
+
+    // 2. 통신
+    async function getBoardList(title) {
+        let response = await fetch(`/board?title=${title}`);
+        let responseBody = await response.json();
+
+        if (response.ok) {
+            let boardList = responseBody.body; // 이걸 어디뿌려? models 안에!
+        } else {
+
+        }
+
+    }
+
+    // 3. 키보드 이벤트 처리
+    $("#title").on("keyup", function (e) {
+        // 1. 값 가져오기
+        let title = e.target.value;
+        // 2. fetch 요청 ( fetch 요청은 따로 함수빼서 만들기. 여기다 다 적으면 복잡하다. )
+    })
+
+
+</script>
+
 
 {{>layout/footer}}

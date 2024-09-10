@@ -92,14 +92,20 @@ public class BoardController {
     public ResponseEntity<?> testV6(){ // 1. ResponseBody 생략, 상태코드를 넣을 수 있따.
        throw new ExceptionApi404("페이지를 찾을 수 없습니다."); // 글로벌api익셉션핸들러를 때리니까 내가 직접 return 안해도 된다.
     }
-
-
     
-    
+    // BOARD 데이터만 받아오는 녀석
+    @GetMapping("/board")
+    public ResponseEntity<?> boardList(@RequestParam(name = "title", required = false) String title) {
+        List<BoardResponse.DTO> boardList = boardService.게시글목록보기(title);
+        return ResponseEntity.ok(Resp.ok(boardList));
+    }// 2가지 방법중에 하나쓰면된다. 이렇게 적고 return type을 @ResponseBody Resp<?> 아니면 responseEntity로 return
+
+    // localhost:8080?title=제목
+    // SSR 할 때 필요
     @GetMapping("/")
     public String list(@RequestParam(name = "title", required = false) String title, HttpServletRequest request) { // ? 해서 들어오는 데이터는 @requestParam 써준다. 근데 해당 어노테이션은 생략할 수 있다.
         System.out.println("title : " + title);
-        List<Board> boardList = boardService.게시글목록보기(title);
+        List<BoardResponse.DTO> boardList = boardService.게시글목록보기(title); // board가 아닌 boardDTO를 RETURN 하도록 리팩토링 해야한다.
         request.setAttribute("models", boardList);
         return "board/list";
     }
