@@ -34,4 +34,15 @@ public class UserService {
         userRepository.save(joinDTO.toEntity());
 
     }
+
+    public boolean 유저네임중복되었니(String username) {
+        Optional<User> userOP= userRepository.findByUsername(username);
+        // 무조건 throw날리면 안됨. boolean으로 false랑 true를 return
+        if(userOP.isPresent()) {
+            return true; // 중복되었으면 true임
+        }else{
+            return false;
+        }
+
+    }
 }
