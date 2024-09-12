@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.springv3.core.error.ex.Exception400;
 import org.example.springv3.core.error.ex.Exception403;
 import org.example.springv3.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,15 +24,16 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardQueryRepository boardQueryRepository;
 
-    public List<Board> 게시글목록보기(String title) {
+    public BoardResponse.PageDTO 게시글목록보기(String title, int page) {
+
+        Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
         if(title == null){
-        //Pageable pg = PageRequest.of(0, 3, Sort.Direction.DESC, "id");
-        Sort sort = Sort.by(Sort.Direction.DESC, "id"); // 거꾸로 정렬
-        List<Board> boardList = boardRepository.findAll(sort);
-            return boardList;
-        }else {
-            List<Board> boardList = boardRepository.mFindAll(title); // 동적쿼리 아님
-            return boardList;
+            Page<Board> boardList = boardRepository.findAll(pageable); // findAll안에 pageable을 넣을 수 있게 되어있음
+            // pageable 객체가order by b.id desc 도 해줘서 레파지
+            return new BoardResponse.PageDTO(boardList);
+        }else{
+            Page<Board> boardList = boardRepository.mFindAll(title, pageable); // 동적쿼리 아님
+            return new BoardResponse.PageDTO(boardList);
         }
 
     }

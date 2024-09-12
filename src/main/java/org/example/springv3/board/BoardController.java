@@ -10,6 +10,7 @@ import org.example.springv3.core.error.ex.ExceptionApi404;
 import org.example.springv3.core.util.Resp;
 import org.example.springv3.user.User;
 import org.example.springv3.user.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -97,11 +98,13 @@ public class BoardController {
     
     
     @GetMapping("/")
-    public String list(@RequestParam(name = "title", required = false) String title, HttpServletRequest request) { // ? 해서 들어오는 데이터는 @requestParam 써준다. 근데 해당 어노테이션은 생략할 수 있다.
-        System.out.println("title : " + title);
-        List<Board> boardList = boardService.게시글목록보기(title);
-        request.setAttribute("models", boardList);
+    public String list(@RequestParam(name = "title", required = false) String title, @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                       HttpServletRequest request) { // ? 해서 들어오는 데이터는 @requestParam 써준다. 근데 해당 어노테이션은 생략할 수 있다.
+
+        BoardResponse.PageDTO model = boardService.게시글목록보기(title, page); // 페이지 객체
+        request.setAttribute("model", model); // collection이 아니라 object니까 models -> model로 바꿔주기 (아까 눈으로 본 것)
         return "board/list";
+
     }
 
 
