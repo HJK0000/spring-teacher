@@ -45,9 +45,12 @@ public class BoardResponse {
         // number = 6 (6,7,8)
         private List<Integer> numbers = new ArrayList<>();
         private List<Content> contents = new ArrayList<>();
+        private String keyword; // 검색 제목
 
 
-        public PageDTO(Page<Board> boardPG){
+        public PageDTO(Page<Board> boardPG, String title){
+
+            this.keyword = title;
             this.number = boardPG.getNumber();
             this.totalPage = boardPG.getTotalPages();
             this.size = boardPG.getSize();

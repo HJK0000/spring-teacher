@@ -30,10 +30,10 @@ public class BoardService {
         if(title == null){
             Page<Board> boardList = boardRepository.findAll(pageable); // findAll안에 pageable을 넣을 수 있게 되어있음
             // pageable 객체가order by b.id desc 도 해줘서 레파지
-            return new BoardResponse.PageDTO(boardList);
+            return new BoardResponse.PageDTO(boardList,""); // null인 타이틀
         }else{
             Page<Board> boardList = boardRepository.mFindAll(title, pageable); // 동적쿼리 아님
-            return new BoardResponse.PageDTO(boardList);
+            return new BoardResponse.PageDTO(boardList, title); // 값이 있는 타이틀
         }
 
     }
