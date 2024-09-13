@@ -10,6 +10,18 @@ import java.util.List;
 
 public class BoardResponse {
 
+    @Data // getter, setter, toString
+    public static class ListDTO {
+        private Integer id;
+        private String title;
+        private Long count;
+
+        public ListDTO(Integer id, String title, Long count) {
+            this.id = id;
+            this.title = title;
+            this.count = count;
+        }
+    }
 
     @Data
     public static class PageDTO {
@@ -149,4 +161,6 @@ public class BoardResponse {
             }
         }
     }
+
+
 }
