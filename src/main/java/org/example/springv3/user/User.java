@@ -25,17 +25,21 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    private String profile;
+
     @CreationTimestamp
     private Timestamp createdAt;
 
     @Builder
-    public User(Integer id, String username, String password, String email, Timestamp createdAt) {
+    public User(Integer id, String username, String password, String email, String profile, Timestamp createdAt) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.profile = profile;
         this.createdAt = createdAt;
     }
+
 
     @Override
     public String toString() {
